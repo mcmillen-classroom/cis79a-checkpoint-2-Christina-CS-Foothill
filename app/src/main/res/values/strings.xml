@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name ="question_text">Placeholder for first..</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+
+    <string name="question_1">The anime Bleach features a main character with bright red hair.</string>
+    <string name="question_2">The author of the Bleach manga series is named Tite Kubo.</string>
+    <string name="question_3">Ichigo is the only one in his family with the ability to see spirits.</string>
+    <string name="question_4">Ichigo witnissed his mother die in a car crash when he was a child.</string>
+    <string name="question_5">Toshiro Hitsugaya is the only Bleach character with an ice-type zanpakto.</string>
+</resources>
