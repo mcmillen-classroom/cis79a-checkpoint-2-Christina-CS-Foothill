@@ -15,6 +15,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private Button mFalseButton;
     private Button mNextButton;
     private TextView mQuestionTextView;
+    private Question currQuestion;
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_1,false),
@@ -33,7 +34,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_question);
 
         mQuestionTextView = (TextView) findViewById(R.id.text_view);
-        int question = mQuestionBank[mCurrentIndex].getTextResId();
+        currQuestion = mQuestionBank[mCurrentIndex];
+        int question = currQuestion.getTextResId();
         mQuestionTextView.setText(question);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
@@ -49,12 +51,12 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         Toast myToast;
 
-        if(v.getId() == R.id.true_button && firstQuestion.getAnswer() == true  ) {
+        if(v.getId() == R.id.true_button && currQuestion.getAnswer() == true  ) {
             myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
             myToast.setGravity(Gravity.TOP,0,0);
             myToast.show();
         }
-        else if(v.getId() == R.id.false_button && firstQuestion.getAnswer() == false){
+        else if(v.getId() == R.id.false_button && currQuestion.getAnswer() == false){
             myToast = Toast.makeText(this, "You are correct" ,Toast.LENGTH_SHORT);
             myToast.setGravity(Gravity.TOP,0,0);
             myToast.show();
