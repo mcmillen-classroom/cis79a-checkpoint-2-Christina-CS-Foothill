@@ -13,8 +13,18 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mNextButton;
+    private TextView mQuestionTextView;
 
-    private TextView mTextView;
+    private Question[] mQuestionBank = new Question[]{
+            new Question(R.string.question_1,false),
+            new Question(R.string.question_2,true),
+            new Question(R.string.question_3, false),
+            new Question(R.string.question_4, false),
+            new Question(R.string.question_5,false)
+    };
+
+    private int mCurrentIndex = 0;
 
     private Question firstQuestion;
     @Override
@@ -22,16 +32,16 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
+        mQuestionTextView = (TextView) findViewById(R.id.text_view);
+        int question = mQuestionBank[mCurrentIndex].getTextResId();
+        mQuestionTextView.setText(question);
+
         mTrueButton = (Button) findViewById(R.id.true_button);
         mFalseButton = (Button) findViewById(R.id.false_button);
 
         mTrueButton.setOnClickListener(this);
         mFalseButton.setOnClickListener(this);
 
-        mTextView = (TextView)findViewById(R.id.text_view);
-
-        firstQuestion = new Question(R.string.question_2, false);
-        mTextView.setText(firstQuestion.getTextResId());
     }
 
 
