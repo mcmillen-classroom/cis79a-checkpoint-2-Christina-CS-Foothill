@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,58 +14,106 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private Button mTrueButton;
     private Button mFalseButton;
-    private Button mNextButton;
+    private ImageButton mNextButton;
+    private ImageButton mPreviousButton;
+    private TextView mHintTextView;
     private TextView mQuestionTextView;
     private Question currQuestion;
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_1,false),
             new Question(R.string.question_2,true),
-            new Question(R.string.question_3, false),
+            new Question(R.string.question_3, R.string.question_3_hint,false),
             new Question(R.string.question_4, false),
-            new Question(R.string.question_5,false)
+            new Question(R.string.question_5, R.string.question_5_hint, false),
+            new Question(R.string.question_6, R.string.question_6_hint,true),
+            new Question(R.string.question_7, true)
     };
 
     private int mCurrentIndex = 0;
 
-    private Question firstQuestion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
         mQuestionTextView = (TextView) findViewById(R.id.text_view);
+        mHintTextView = (TextView) findViewById(R.id.hint_view);
         currQuestion = mQuestionBank[mCurrentIndex];
         int question = currQuestion.getTextResId();
         mQuestionTextView.setText(question);
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mFalseButton = (Button) findViewById(R.id.false_button);
+        mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mPreviousButton = (ImageButton) findViewById(R.id.previous_button);
 
         mTrueButton.setOnClickListener(this);
         mFalseButton.setOnClickListener(this);
+        mNextButton.setOnClickListener(this);
+        mPreviousButton.setOnClickListener(this);
+        mHintTextView.setOnClickListener(this);
 
     }
 
 
     @Override
     public void onClick(View v) {
-        Toast myToast;
 
-        if(v.getId() == R.id.true_button && currQuestion.getAnswer() == true  ) {
-            myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
-            myToast.setGravity(Gravity.TOP,0,0);
-            myToast.show();
+
+        if(v.getId() == R.id.true_button ) {
+            checkAnswer(true);
         }
-        else if(v.getId() == R.id.false_button && currQuestion.getAnswer() == false){
-            myToast = Toast.makeText(this, "You are correct" ,Toast.LENGTH_SHORT);
+        else if(v.getId() == R.id.false_button){
+            checkAnswer(false);
+        }
+        else if(v.getId() == R.id.next_button){
+            //change to next question
+            mCurrentIndex++;
+
+            if(mCurrentIndex == mQuestionBank.length){
+                mCurrentIndex = 0;
+            }
+            currQuestion = mQuestionBank[mCurrentIndex];
+            mQuestionTextView.setText(currQuestion.getTextResId());
+            mHintTextView.setText(R.string.hint_default_text);
+
+        }
+        else if(v.getId() == R.id.previous_button){
+            //change to previous question
+
+            if(mCurrentIndex == 0){
+                mCurrentIndex = (mQuestionBank.length);
+            }
+            mCurrentIndex--;
+            currQuestion = mQuestionBank[mCurrentIndex];
+            mQuestionTextView.setText(currQuestion.getTextResId());
+            mHintTextView.setText(R.string.hint_default_text);
+        }
+        else if(v.getId() == R.id.hint_view){
+            if(currQuestion.getmHintResId() == -1){
+                mHintTextView.setText(R.string.hint_unavailable_text);
+            }
+            else{
+                mHintTextView.setText(currQuestion.getmHintResId());
+            }
+        }
+    }
+
+    public boolean checkAnswer(boolean userInput){
+
+        if(currQuestion.getAnswer() == userInput){
+            Toast myToast = Toast.makeText(this, "You are correct", Toast.LENGTH_SHORT);
             myToast.setGravity(Gravity.TOP,0,0);
             myToast.show();
+            return true;
         }
         else{
-            myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
+            Toast myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
             myToast.setGravity(Gravity.TOP,0,0);
             myToast.show();
+            return false;
         }
 
     }
