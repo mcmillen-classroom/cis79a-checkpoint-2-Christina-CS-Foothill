@@ -65,10 +65,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
 
 
-        if(v.getId() == R.id.true_button ) {
+        if(v.getId() == R.id.true_button && !currQuestion.isHasBeenAnswered()) {
             checkAnswer(true);
         }
-        else if(v.getId() == R.id.false_button){
+        else if(v.getId() == R.id.false_button && !currQuestion.isHasBeenAnswered()){
             checkAnswer(false);
         }
         else if(v.getId() == R.id.next_button){
@@ -78,10 +78,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if(mCurrentIndex == mQuestionBank.length){
                 mCurrentIndex = 0;
                 mScore = 0;
-                mScoreView.setText("Score:" + mScore);
-                Toast myToast = Toast.makeText(this, "Quiz Restarted", Toast.LENGTH_SHORT);
-                //myToast.setGravity(Gravity.BOTTOM,0,0);
-                myToast.show();
+                mScoreView.setText("Score: " + mScore);
+                resetQuestions();
             }
             currQuestion = mQuestionBank[mCurrentIndex];
             mQuestionTextView.setText(currQuestion.getTextResId());
@@ -94,6 +92,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if(mCurrentIndex == 0){
                 mCurrentIndex = (mQuestionBank.length);
             }
+
             mCurrentIndex--;
             currQuestion = mQuestionBank[mCurrentIndex];
             mQuestionTextView.setText(currQuestion.getTextResId());
@@ -117,14 +116,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             myToast.show();
             mScore++;
             mScoreView.setText("Score: " + mScore);
+            currQuestion.setHasBeenAnswered(true);
             return true;
         }
         else{
             Toast myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
             myToast.setGravity(Gravity.TOP,0,0);
             myToast.show();
+            if(mScore > 0)
+                mScore--;
+            mScoreView.setText("Score: " + mScore);
+            currQuestion.setHasBeenAnswered(true);
             return false;
         }
+
+    }
+
+    public void resetQuestions(){
+
+        for(Question q: mQuestionBank)
+            q.setHasBeenAnswered(false);
 
     }
 }

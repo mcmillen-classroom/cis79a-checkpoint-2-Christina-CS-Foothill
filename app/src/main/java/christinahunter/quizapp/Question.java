@@ -5,6 +5,7 @@ public class Question {
     private int mTextResId;
     private boolean mAnswer;
     private int mHintResId;
+    private boolean hasBeenAnswered = false;
 
     public Question(int mTextResId, boolean answer) {
         this.mTextResId = mTextResId;
@@ -40,6 +41,14 @@ public class Question {
 
     public void setmHintResId(int mHintResId) {
         this.mHintResId = mHintResId;
+    }
+
+    public boolean isHasBeenAnswered() {
+        return hasBeenAnswered;
+    }
+
+    public void setHasBeenAnswered(boolean hasBeenAnswered) {
+        this.hasBeenAnswered = hasBeenAnswered;
     }
 }
 
