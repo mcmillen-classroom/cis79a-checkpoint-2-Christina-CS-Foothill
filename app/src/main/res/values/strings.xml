@@ -8,6 +8,7 @@
     <string name="hint_default_text">Click here to see if there is a hint available for this question!</string>
     <string name="hint_unavailable_text">Sorry, there is no hint available.</string>
     <string name="score_text">Score: 0</string>
+    <string name="question_status_answered">You already answered this question.</string>
 
     <string name="question_1">The anime Bleach features a main character with bright red hair.</string>
 

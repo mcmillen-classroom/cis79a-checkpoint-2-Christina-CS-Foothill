@@ -21,6 +21,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private Question currQuestion;
     private TextView mScoreView;
     private int mScore = 0;
+    private TextView mQuestionStatusView;
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_1,false),
@@ -51,6 +52,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mPreviousButton = (ImageButton) findViewById(R.id.previous_button);
         mScoreView = (TextView) findViewById(R.id.score_view);
+        mQuestionStatusView = (TextView) findViewById(R.id.question_status);
 
         mTrueButton.setOnClickListener(this);
         mFalseButton.setOnClickListener(this);
@@ -79,12 +81,17 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 mCurrentIndex = 0;
                 mScore = 0;
                 mScoreView.setText("Score: " + mScore);
+                showToast("Quiz restarted!");
                 resetQuestions();
             }
             currQuestion = mQuestionBank[mCurrentIndex];
             mQuestionTextView.setText(currQuestion.getTextResId());
             mHintTextView.setText(R.string.hint_default_text);
 
+            if(currQuestion.isHasBeenAnswered())
+                mQuestionStatusView.setText(R.string.question_status_answered);
+            else
+                mQuestionStatusView.setText("");
         }
         else if(v.getId() == R.id.previous_button){
             //change to previous question
@@ -97,6 +104,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             currQuestion = mQuestionBank[mCurrentIndex];
             mQuestionTextView.setText(currQuestion.getTextResId());
             mHintTextView.setText(R.string.hint_default_text);
+            if(currQuestion.isHasBeenAnswered())
+                mQuestionStatusView.setText(R.string.question_status_answered);
+            else
+                mQuestionStatusView.setText("");
         }
         else if(v.getId() == R.id.hint_view){
             if(currQuestion.getmHintResId() == -1){
@@ -111,18 +122,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public boolean checkAnswer(boolean userInput){
 
         if(currQuestion.getAnswer() == userInput){
-            Toast myToast = Toast.makeText(this, "You are correct", Toast.LENGTH_SHORT);
-            myToast.setGravity(Gravity.TOP,0,0);
-            myToast.show();
+            showToast("You are correct");
             mScore++;
             mScoreView.setText("Score: " + mScore);
             currQuestion.setHasBeenAnswered(true);
             return true;
         }
         else{
-            Toast myToast = Toast.makeText(this, "You are incorrect", Toast.LENGTH_SHORT);
-            myToast.setGravity(Gravity.TOP,0,0);
-            myToast.show();
+            showToast("You are correct");
             if(mScore > 0)
                 mScore--;
             mScoreView.setText("Score: " + mScore);
@@ -132,10 +139,18 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    public void showToast(String s){
+        Toast myToast = Toast.makeText(this, s, Toast.LENGTH_SHORT);
+        myToast.setGravity(Gravity.TOP,0,0);
+        myToast.show();
+    }
+
     public void resetQuestions(){
 
         for(Question q: mQuestionBank)
             q.setHasBeenAnswered(false);
+
+        mQuestionStatusView.setText("");
 
     }
 }
