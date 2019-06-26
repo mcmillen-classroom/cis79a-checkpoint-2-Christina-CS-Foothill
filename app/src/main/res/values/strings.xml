@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuizApp</string>
+    <string name="app_name">Bleach Quiz App</string>
     <string name ="title_text">Bleach Quiz App</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
@@ -7,6 +7,7 @@
     <string name="previous_button">Previous</string>
     <string name="hint_default_text">Click here to see if there is a hint available for this question!</string>
     <string name="hint_unavailable_text">Sorry, there is no hint available.</string>
+    <string name="score_text">Score: 0</string>
 
     <string name="question_1">The anime Bleach features a main character with bright red hair.</string>
 

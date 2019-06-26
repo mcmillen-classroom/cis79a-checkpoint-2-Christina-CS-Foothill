@@ -19,6 +19,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private TextView mHintTextView;
     private TextView mQuestionTextView;
     private Question currQuestion;
+    private TextView mScoreView;
+    private int mScore = 0;
 
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_1,false),
@@ -48,6 +50,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         mFalseButton = (Button) findViewById(R.id.false_button);
         mNextButton = (ImageButton) findViewById(R.id.next_button);
         mPreviousButton = (ImageButton) findViewById(R.id.previous_button);
+        mScoreView = (TextView) findViewById(R.id.score_view);
 
         mTrueButton.setOnClickListener(this);
         mFalseButton.setOnClickListener(this);
@@ -74,6 +77,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             if(mCurrentIndex == mQuestionBank.length){
                 mCurrentIndex = 0;
+                mScore = 0;
+                mScoreView.setText("Score:" + mScore);
+                Toast myToast = Toast.makeText(this, "Quiz Restarted", Toast.LENGTH_SHORT);
+                //myToast.setGravity(Gravity.BOTTOM,0,0);
+                myToast.show();
             }
             currQuestion = mQuestionBank[mCurrentIndex];
             mQuestionTextView.setText(currQuestion.getTextResId());
@@ -107,6 +115,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Toast myToast = Toast.makeText(this, "You are correct", Toast.LENGTH_SHORT);
             myToast.setGravity(Gravity.TOP,0,0);
             myToast.show();
+            mScore++;
+            mScoreView.setText("Score: " + mScore);
             return true;
         }
         else{
