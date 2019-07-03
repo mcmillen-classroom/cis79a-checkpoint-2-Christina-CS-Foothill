@@ -129,7 +129,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             return true;
         }
         else{
-            showToast("You are correct");
+            showToast("You are incorrect");
             if(mScore > 0)
                 mScore--;
             mScoreView.setText("Score: " + mScore);
